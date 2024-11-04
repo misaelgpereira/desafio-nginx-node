@@ -12,8 +12,7 @@ RUN npm install
 COPY . .
 
 # Baixar o script wait-for-it.sh para aguardar o MySQL estar pronto
-RUN curl -o wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && \
-    chmod +x wait-for-it.sh
+RUN chmod +x wait-for-it.sh
 
 # Expor a porta do aplicativo
 EXPOSE 3000

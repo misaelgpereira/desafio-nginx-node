@@ -12,7 +12,11 @@ services:
       db:
         condition: service_healthy
     networks:
-     - node-network  
+      - node-network
+    volumes:
+      - ./app:/usr/src/app
+      - /usr/src/app/node_modules     # Impede que node_modules seja sobrescrito
+    tty: true
 
   db:
     image: mysql:5.7
@@ -30,7 +34,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-     - node-network  
+      - node-network  
 
   nginx:
     image: nginx:latest
@@ -41,8 +45,8 @@ services:
     depends_on:
       - app
     networks:
-     - node-network  
-     
+      - node-network  
+
 volumes:
   db_data:
 

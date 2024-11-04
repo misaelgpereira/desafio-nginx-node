@@ -26,13 +26,15 @@ connection.query(
 
 app.get('/', (req, res) => {
   const name = `People-${Math.floor(Math.random() * 100)}`;
-  connection.query(`INSERT INTO people(name) VALUES(?)`, [name]);
+  connection.query(`INSERT INTO people(name) VALUES(?)`, [name], (error) => {
+    if (error) return res.status(500).send('Erro ao inserir dados');
+    
+    connection.query('SELECT name FROM people', (error, results) => {
+      if (error) return res.status(500).send('Erro ao buscar dados');
 
-  connection.query('SELECT name FROM people', (error, results) => {
-    if (error) throw error;
-
-    const names = results.map(row => row.name).join('<br>');
-    res.send(`<h1>Full Cycle Rocks!</h1><br>${names}`);
+      const names = results.map(row => row.name).join('<br>');
+      res.send(`<h1>Full Cycle Rocks!</h1><br>${names}`);
+    });
   });
 });
 
